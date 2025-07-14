@@ -1,0 +1,39 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+//    id 'com.gradle.plugin-publish' version '1.2.1'
+}
+
+group = 'io.seanlee.plugins'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+gradlePlugin {
+//    website = 'https://github.com/lishaoning/tag-jar'
+//    vcsUrl = 'https://github.com/lishaoning/tag-jar.git'
+    plugins {
+        tagjar {
+            id = 'io.seanlee.plugins.tagjar'
+//            displayName = "tagJar"
+            description = "A gradle tool for creating jar packages based on git tags"
+//            tags.set(['git tag','build tool','git'])
+            implementationClass = 'io.seanlee.plugins.TagJarPlugin'
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/lishaoning/tag-jar")
+            credentials {
+                username = project.findProperty("gu")
+                password = project.findProperty("gt")
+            }
+        }
+    }
+}
